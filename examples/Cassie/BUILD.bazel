@@ -54,6 +54,56 @@ cc_library(
     "//examples/Cassie/datatypes:cassie_names",
     "//attic/multibody:utils",
     ":cassie_utils",
+    "//examples/Cassie:RobotState",
+    "//examples/Cassie:NoiseParams",
+    "//examples/Cassie:InEKF",
+  ]
+)
+
+cc_library(
+    name = "LieGroup",
+    srcs = ["LieGroup.cpp"],
+    hdrs = ["LieGroup.h"],
+    deps = ["@drake//:drake_shared_library"]
+)
+
+cc_library(
+    name = "RobotState",
+    srcs = ["RobotState.cpp"],
+    hdrs = [
+        "RobotState.h",
+        "LieGroup.h"
+    ],
+    deps = ["@drake//:drake_shared_library"]
+)
+
+cc_library(
+    name = "NoiseParams",
+    srcs = ["NoiseParams.cpp"],
+    hdrs = ["NoiseParams.h"],
+    deps = ["@drake//:drake_shared_library"]
+)
+
+cc_library(
+    name = "InEKF",
+    srcs = ["InEKF.cpp"],
+    hdrs = [
+        "InEKF.h",
+        "RobotState.h",
+        "NoiseParams.h",
+        "LieGroup.h"
+    ],
+    deps = ["@drake//:drake_shared_library"]
+)
+
+cc_binary(
+  name = "kinematics",
+  srcs = ["kinematics.cpp"],
+  deps = [
+      "//examples/Cassie:RobotState",
+      "//examples/Cassie:NoiseParams",
+      "//examples/Cassie:InEKF",
+      "@drake//:drake_shared_library"
   ]
 )
 
@@ -163,7 +213,7 @@ cc_binary(
         ":cassie_utils",
         "//systems:robot_lcm_systems",
         "//systems/primitives:vector_aggregator",
-        "@drake//:drake_shared_library",    
+        "@drake//:drake_shared_library",
     ],
 )
 
